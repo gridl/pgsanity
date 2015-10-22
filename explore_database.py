@@ -8,6 +8,11 @@ from utils import create_database_session, collect_table_data
 
 
 def output_data(data, filename):
+    """
+    Write out a JSON object into file or console
+    :param data: dict
+    :param filename: string
+    """
     if filename:
         with open(filename, 'w') as f:
             json.dump(data, f, indent=4)

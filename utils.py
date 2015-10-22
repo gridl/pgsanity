@@ -13,11 +13,20 @@ DEBUG = False
 
 
 def debug_message(*args):
+    """
+    Print out the message if DEBUG const is set
+    :param args: list what to print
+    """
     if DEBUG:
         print(*args)
 
 
 def create_database_session(database_uri):
+    """
+    Connect to database and return base and session
+    :param database_uri: string uri for psycopg2 to connect to db
+    :return: tuple (base, session)
+    """
 
     def name_for_scalar_relationship(bs, this, other, constr):
         name = other.__name__.lower() + '_ref'
@@ -34,6 +43,30 @@ def create_database_session(database_uri):
 
 
 def collect_table_data(base, session):
+    """
+    Read table information from database and return dict:
+
+    ```
+    {
+      "table_name_1": {
+        "row_count": 100,
+        "columns": {
+          "col_name_1": {
+            "type": "VARCHAR",
+            "primary_key": true,
+            "min_value": "aaa",
+            "max_value": "zzz"
+          }
+        }
+      },
+      ...
+    }
+    ```
+
+    :param base: base
+    :param session: session
+    :return: dict
+    """
 
     all_tables = {}
 

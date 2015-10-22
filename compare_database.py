@@ -9,23 +9,47 @@ from termcolor import colored
 
 
 def read_data(filename):
+    """
+    Read JSON database description from file
+    :param filename: string
+    :return: dict
+    """
     with open(filename, 'r') as f:
         return json.load(f)
 
 
 def yay(text, color):
+    """
+    Prints out a "ok" message to console.
+    :param text: string
+    :param color: boolean
+    """
     if color:
         text = colored(text, 'green')
     print(text)
 
 
 def nay(text, color):
+    """
+    Prints out a "not ok" message to console.
+    :param text: string
+    :param color: boolean
+    """
     if color:
         text = colored(text, 'red')
     print(text)
 
 
 def compare_values(msg, expected, actual, approved_diff=None, diff_only=True, color=False):
+    """
+    Compare two provided values and report the results
+    :param msg: string description of two values to compare
+    :param expected: object
+    :param actual: object
+    :param approved_diff: float fraction of difference we are ok with (ex: 0.1 is 10%)
+    :param diff_only: boolean only print out the differences
+    :param color: boolean print out colored lines into terminal
+    """
 
     def close_enough(exp, act):
         if not approved_diff:
@@ -43,6 +67,13 @@ def compare_values(msg, expected, actual, approved_diff=None, diff_only=True, co
 
 
 def compare_data(ref_data, table_data, diff_only, color):
+    """
+    Compare two dicts with database information
+    :param ref_data: dict information about our "good" database
+    :param table_data: dict information about the database we want to check
+    :param diff_only: boolean only print out the differences
+    :param color: boolean print out colored lines into terminal
+    """
     compare_values('Number of tables', len(ref_data), len(table_data))
 
     for table_name in sorted(ref_data.keys()):
