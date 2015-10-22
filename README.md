@@ -4,6 +4,22 @@ Database sanity checks
 This is a utility script to check the data in PostgreSQL database assuming that
 you have a "reference" database to compare to.
 
+Setup
+-----
+
+Create and activate a virtual environment:
+
+```
+$ virtualenv /path-to-venvs/pgsanity
+$ source /path-to-venvs/pgsanity/bin/activate
+```
+
+Install required packages:
+
+```
+$ pip install -r requirements.txt
+```
+
 Workflow
 --------
 
@@ -33,3 +49,8 @@ The script will print out the comparison results. Example:
   field_1 min: different: expected 00501, actual None.
   field_1 max: different: expected 99950, actual None.
 ```
+
+Questions?
+----------
+
+Submit an [issue](https://github.com/j-bennet/pgsanity/issues).
