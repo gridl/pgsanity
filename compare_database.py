@@ -18,6 +18,17 @@ def read_data(filename):
         return json.load(f)
 
 
+def say(text, color):
+    """
+    Prints out a "debug" message to console.
+    :param text: string
+    :param color: boolean
+    """
+    if color:
+        text = colored(text, 'blue')
+    print(text)
+
+
 def yay(text, color):
     """
     Prints out a "ok" message to console.
@@ -74,16 +85,20 @@ def compare_data(ref_data, table_data, diff_only, color):
     :param diff_only: boolean only print out the differences
     :param color: boolean print out colored lines into terminal
     """
-    compare_values('Number of tables', len(ref_data), len(table_data))
+    compare_values('Number of tables', len(ref_data), len(table_data), diff_only=diff_only, color=color)
 
     for table_name in sorted(ref_data.keys()):
+        say('* Comparing {0}'.format(table_name), color)
+
         if table_name in table_data:
 
             compare_values(
-                '* {0} rows'.format(table_name),
+                '  rows'.format(table_name),
                 ref_data[table_name]['row_count'],
                 table_data[table_name]['row_count'],
-                approved_diff=0.1
+                approved_diff=0.1,
+                diff_only=diff_only,
+                color=color
             )
 
             for col_name in ref_data[table_name]['columns']:
@@ -125,14 +140,16 @@ if __name__ == '__main__':
     parser.add_option(
         '-c',
         '--colored',
+        action="store_true",
         dest='colored',
         default=False,
-        help='Color output.')
+        help='Color output (default is false).')
     parser.add_option(
         '--diff-only',
+        action="store_true",
         dest='diff_only',
-        default=True,
-        help='Only print out what is different.')
+        default=False,
+        help='Only print out what is different (default is false).')
     (popts, pargs) = parser.parse_args()
 
     if not popts.database or not popts.filename:
